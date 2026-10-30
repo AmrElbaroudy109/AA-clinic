@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<!-- ================================================================
+     مكان تعديل كل الروابط (الوحيد): غيّر ما بين علامتي التنصيص فقط.
+     USERNAME = اسم حسابك على GitHub ، REPO = اسم المستودع
+     ================================================================ -->
+<!-- ================================================================
+     دليل التعديل السريع (اقرأه قبل أي تعديل)
+     • الروابط + رقم الإصدار : الصندوق window.LINKS اللي فوق
+     • لقطة الشاشة : ضع screenshot.png بجانب الملف (قسم 2)
+     • الشعار : ضع logo.png بجانب الملف (قسم 1)
+     • أي نص عربي : عدّله مباشرة بين الوسوم
+     • ميزة جديدة : انسخ كارت <div class="card card--hover"> كامل (قسم 3)
+     • سؤال جديد : انسخ بلوك <details> كامل (قسم 6)
+     • لا تحذف ولا تعدّل : وسم <style> الطويل (هو التصميم)
+     • بعد أي تعديل : احفظ، وارفع الملف على GitHub بنفس الاسم
+     ================================================================ -->
+<script>
+window.LINKS = {
+  setup:    "https://github.com/AmrElbaroudy109/AA-clinic/releases/latest/download/AA-Clinic-Setup.exe",
+  server:   "https://github.com/AmrElbaroudy109/AA-clinic/releases/latest/download/AA-Clinic-Server.zip",
+  guide:    "user-guide.html",
+  facebook: "https://www.facebook.com/share/1FNBX4NZNc/?mibextid=wwXIfr",
+  whatsapp: "https://wa.me/01153339959",
+  version:  "1.0.0"   // رقم الإصدار المعروض في الصفحة
+};
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="logo.png">
+<title>AA Clinic | نظام إدارة العيادات</title>
+<meta name="description" content="AA Clinic: برنامج لإدارة العيادة يعمل على جهازك. حجوزات، ملفات مرضى، فواتير، ونسخ احتياطي.">
+<!-- الخط (Cairo) من Google Fonts: لا تعدّل السطرين الجايين -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap">
+<style>
+/* ==========================================================================
+   Glass Design System  |  RTL-first  |  Light + Dark themes
+   مستخرج من ملفي CSS (Tailwind builds). مستقل بالكامل: لا يحتاج Tailwind.
+   الاستخدام: <html dir="rtl" lang="ar" data-theme="light|dark">
+   ========================================================================== */
+
+/* ---------- 1) Design Tokens (غيّر الثيم من هنا فقط) ---------- */
+:root {
+  /* Brand — لتغيير هوية أي برنامج غيّر هذه فقط */
+  --brand-500: #3b82f6;   /* blue-500 */
+  --brand-600: #2563eb;   /* blue-600 */
+  --brand-700: #1d4ed8;
+  --accent-500: #6366f1;  /* indigo-500 */
+  --accent-600: #4f46e5;
+
+  /* Status */
+  --success-500: #10b981; --success-600: #059669; --success-50: #ecfdf5; --success-100: #d1fae5;
+  --warning-500: #f59e0b; --warning-600: #d97706; --warning-50: #fffbeb; --warning-100: #fef3c7;
+  --danger-500:  #ef4444; --danger-600:  #dc2626; --danger-50:  #fef2f2; --danger-100:  #fee2e2;
+  --info-500:    #06b6d4; --info-50: #ecfeff;
+  --violet-500:  #8b5cf6; --violet-600: #7c3aed; --violet-50: #f5f3ff;
+  --orange-500:  #f97316;
+  --teal-500:    #14b8a6;
+
+  /* Typography */
+  --font-ui: "Cairo", "Tajawal", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --fs-xs: .75rem;  --fs-sm: .875rem; --fs-base: 1rem;
+  --fs-lg: 1.125rem; --fs-xl: 1.25rem; --fs-2xl: 1.5rem; --fs-3xl: 1.875rem; --fs-4xl: 2.25rem;
+
+  /* Radius */
+  --r-sm: .375rem; --r-md: .5rem; --r-lg: .75rem; --r-xl: 1rem; --r-full: 9999px;
+
+  /* Spacing */
+  --sp-1: .25rem; --sp-2: .5rem; --sp-3: .75rem; --sp-4: 1rem; --sp-5: 1.25rem; --sp-6: 1.5rem; --sp-8: 2rem;
+
+  /* Glass blur levels */
+  --blur-sm: 4px; --blur: 8px; --blur-md: 12px; --blur-xl: 24px;
+
+  /* Motion */
+  --ease: cubic-bezier(.4, 0, .2, 1);
+  --dur: .15s; --dur-md: .3s;
+
+  /* Z layers */
+  --z-sticky: 10; --z-dropdown: 20; --z-modal: 50; --z-toast: 9998; --z-top: 9999;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / .05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / .25);
+  --shadow-inset-glass: inset 0 1px 0 rgba(255, 255, 255, .85);
+}
+
+/* ---------- Light theme (default) ---------- */
+:root, [data-theme="light"] {
+  --bg-app: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #eef2ff 100%); /* slate-50 → blue-50 → indigo-50 */
+  --text: #1f2937;            /* gray-800 */
+  --text-muted: #6b7280;      /* gray-500 */
+  --text-soft: #9ca3af;       /* gray-400 */
+  --surface: rgba(255, 255, 255, .80);          /* glass card */
+  --surface-strong: rgba(255, 255, 255, .95);   /* modal / dropdown */
+  --surface-subtle: rgba(249, 250, 251, .80);   /* gray-50/80 */
+  --border: rgba(226, 232, 240, .80);           /* slate-200/80 */
+  --border-strong: #d1d5db;                     /* gray-300 */
+  --hover-bg: rgba(239, 246, 255, .60);         /* blue-50/60 */
+  --input-bg: rgba(255, 255, 255, .90);
+  --overlay: rgba(0, 0, 0, .50);
+  --glass-shadow: var(--shadow-lg), var(--shadow-inset-glass);
+  --ring: rgba(59, 130, 246, .40);
+  color-scheme: light;
+}
+
+/* ---------- Dark theme (stone glass) ---------- */
+[data-theme="dark"] {
+  --bg-app: linear-gradient(135deg, #1c1917 0%, #292524 50%, #1c1917 100%); /* stone-900 / 800 */
+  --text: #f5f5f4;            /* stone-100 */
+  --text-muted: #d6d3d1;      /* stone-300 */
+  --text-soft: #a8a29e;       /* stone-400 */
+  --surface: rgba(41, 37, 36, .60);             /* stone-800/60 */
+  --surface-strong: rgba(28, 25, 23, .85);
+  --surface-subtle: rgba(28, 25, 23, .50);      /* stone-900/50 */
+  --border: rgba(255, 255, 255, .15);           /* white/15 */
+  --border-strong: rgba(255, 255, 255, .20);
+  --hover-bg: rgba(255, 255, 255, .10);         /* white/10 */
+  --input-bg: rgba(28, 25, 23, .50);
+  --overlay: rgba(0, 0, 0, .60);
+  --glass-shadow: 0 10px 15px -3px rgb(28 25 23 / .4), inset 0 1px 0 rgba(255, 255, 255, .10);
+  --ring: rgba(255, 255, 255, .20);
+  color-scheme: dark;
+}
+
+/* ---------- 2) Base / Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; border: 0 solid var(--border); }
+html { line-height: 1.5; -webkit-text-size-adjust: 100%; font-family: var(--font-ui); }
+body {
+  margin: 0; min-height: 100vh;
+  font-family: var(--font-ui); color: var(--text);
+  background: var(--bg-app); background-attachment: fixed;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+[dir="rtl"] body { text-align: right; }
+h1, h2, h3, h4, p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; margin: 0; }
+button { cursor: pointer; background: none; }
+img, svg { display: block; max-width: 100%; }
+table { border-collapse: collapse; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--brand-500); outline-offset: 2px; }
+::selection { background: rgba(59, 130, 246, .25); }
+
+/* Scrollbar */
+* { scrollbar-width: thin; scrollbar-color: rgba(107, 114, 128, .4) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(107, 114, 128, .4); border-radius: var(--r-full); }
+
+/* ---------- 3) Glass surfaces ---------- */
+.glass {
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--blur-xl)); backdrop-filter: blur(var(--blur-xl));
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--glass-shadow);
+}
+.glass--md { -webkit-backdrop-filter: blur(var(--blur-md)); backdrop-filter: blur(var(--blur-md)); }
+.glass--sm { -webkit-backdrop-filter: blur(var(--blur-sm)); backdrop-filter: blur(var(--blur-sm)); }
+.glass--strong { background: var(--surface-strong); }
+.glass--subtle { background: var(--surface-subtle); box-shadow: none; }
+
+/* Page layout */
+.app { display: flex; min-height: 100vh; }
+.app__main { flex: 1; min-width: 0; padding: var(--sp-6); }
+.container { width: 100%; max-width: 1280px; margin-inline: auto; padding-inline: var(--sp-4); }
+.page-header { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); margin-bottom: var(--sp-6); flex-wrap: wrap; }
+.page-title { font-size: var(--fs-2xl); font-weight: 700; }
+.page-subtitle { font-size: var(--fs-sm); color: var(--text-muted); }
+
+/* Sidebar / Topbar */
+.sidebar { width: 16rem; padding: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-2); border-radius: 0; border-block: 0; border-inline-start: 0; }
+.topbar { position: sticky; top: 0; z-index: var(--z-sticky); padding: var(--sp-3) var(--sp-6); display: flex; align-items: center; justify-content: space-between; border-radius: 0; border-inline: 0; border-top: 0; }
+.nav-item { display: flex; align-items: center; gap: var(--sp-3); padding: .625rem var(--sp-4); border-radius: var(--r-lg); color: var(--text-muted); font-weight: 500; transition: all var(--dur) var(--ease); }
+.nav-item:hover { background: var(--hover-bg); color: var(--text); }
+.nav-item.is-active { background: linear-gradient(to left, var(--brand-500), var(--accent-500)); color: #fff; box-shadow: 0 10px 15px -3px rgb(99 102 241 / .25); }
+
+/* ---------- 4) Cards ---------- */
+.card { background: var(--surface); -webkit-backdrop-filter: blur(var(--blur-xl)); backdrop-filter: blur(var(--blur-xl));
+  border: 1px solid var(--border); border-radius: var(--r-xl); box-shadow: var(--glass-shadow); padding: var(--sp-5); }
+.card__header { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-bottom: var(--sp-4); }
+.card__title { font-size: var(--fs-lg); font-weight: 600; }
+.card--hover { transition: transform var(--dur-md) var(--ease), box-shadow var(--dur-md) var(--ease), border-color var(--dur-md) var(--ease); }
+.card--hover:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); border-color: rgba(96, 165, 250, .5); }
+
+/* Stat cards with tinted gradient wash */
+.stat { position: relative; overflow: hidden; padding: var(--sp-5); border-radius: var(--r-xl); border: 1px solid var(--border); background: var(--surface); }
+.stat::after { content: ""; position: absolute; top: 0; inset-inline-end: 0; width: 6rem; height: 6rem; border-bottom-left-radius: 9999px; background: linear-gradient(135deg, rgba(59, 130, 246, .10), rgba(79, 70, 229, .05)); pointer-events: none; }
+.stat--success::after { background: linear-gradient(135deg, rgba(16, 185, 129, .10), rgba(6, 78, 59, .05)); }
+.stat--warning::after { background: linear-gradient(135deg, rgba(245, 158, 11, .10), rgba(249, 115, 22, .05)); }
+.stat--danger::after  { background: linear-gradient(135deg, rgba(239, 68, 68, .10), rgba(239, 68, 68, .03)); }
+.stat--violet::after  { background: linear-gradient(135deg, rgba(139, 92, 246, .10), rgba(99, 102, 241, .05)); }
+.stat__label { font-size: var(--fs-sm); color: var(--text-muted); }
+.stat__value { font-size: var(--fs-3xl); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ---------- 5) Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2);
+  padding: .5rem 1rem; border-radius: var(--r-lg);
+  font-size: var(--fs-sm); font-weight: 600; line-height: 1.25rem; white-space: nowrap;
+  color: #fff; background: linear-gradient(to left, var(--brand-500), var(--brand-600));
+  box-shadow: 0 10px 15px -3px rgb(59 130 246 / .25);
+  transition: all var(--dur) var(--ease); user-select: none;
+}
+.btn:hover { background: linear-gradient(to left, var(--brand-600), var(--brand-700)); transform: scale(1.03); }
+.btn:active { transform: scale(.95); }
+.btn:disabled, .btn.is-disabled { opacity: .5; cursor: not-allowed; transform: none; background: linear-gradient(to left, #9ca3af, #6b7280); box-shadow: none; }
+.btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface-strong), 0 0 0 4px var(--ring); }
+
+.btn--primary { background: linear-gradient(to left, var(--accent-500), var(--accent-600)); box-shadow: 0 10px 15px -3px rgb(99 102 241 / .25); }
+.btn--success { background: linear-gradient(to left, var(--success-500), var(--success-600)); box-shadow: 0 10px 15px -3px rgb(16 185 129 / .25); }
+.btn--warning { background: linear-gradient(to left, var(--warning-500), var(--warning-600)); box-shadow: 0 10px 15px -3px rgb(245 158 11 / .25); }
+.btn--danger  { background: linear-gradient(to left, var(--danger-500), var(--danger-600)); box-shadow: 0 10px 15px -3px rgb(239 68 68 / .25); }
+.btn--violet  { background: linear-gradient(to left, var(--violet-500), var(--violet-600)); box-shadow: 0 10px 15px -3px rgb(139 92 246 / .25); }
+.btn--dark    { background: linear-gradient(to left, #57534e, #1c1917); box-shadow: 0 10px 15px -3px rgb(28 25 23 / .4); }
+
+.btn--soft { color: var(--text); background: rgba(243, 244, 246, 1); box-shadow: none; }
+.btn--soft:hover { background: #e5e7eb; transform: none; }
+[data-theme="dark"] .btn--soft { background: rgba(255, 255, 255, .10); }
+[data-theme="dark"] .btn--soft:hover { background: rgba(255, 255, 255, .20); }
+
+.btn--outline { color: var(--text); background: transparent; border: 1px solid var(--border-strong); box-shadow: none; }
+.btn--outline:hover { background: var(--hover-bg); border-color: var(--brand-500); transform: none; }
+
+.btn--ghost { color: var(--text-muted); background: transparent; box-shadow: none; }
+.btn--ghost:hover { background: var(--hover-bg); color: var(--text); transform: none; }
+
+.btn--sm { padding: .25rem .75rem; font-size: var(--fs-xs); border-radius: var(--r-md); }
+.btn--lg { padding: .75rem 1.5rem; font-size: var(--fs-base); border-radius: var(--r-xl); }
+.btn--block { width: 100%; }
+.btn--icon { padding: .5rem; border-radius: var(--r-full); }
+.btn--icon:hover { transform: none; }
+
+/* Spinner داخل الزر */
+.spinner { width: 1rem; height: 1rem; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
+
+/* ---------- 6) Tabs ---------- */
+.tabs { display: flex; gap: var(--sp-1); padding: var(--sp-1); background: var(--surface-subtle); border: 1px solid var(--border);
+  border-radius: var(--r-xl); -webkit-backdrop-filter: blur(var(--blur-md)); backdrop-filter: blur(var(--blur-md)); overflow-x: auto; }
+.tab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: var(--sp-2); padding: .5rem 1rem; border-radius: var(--r-lg);
+  font-size: var(--fs-sm); font-weight: 500; color: var(--text-muted); transition: all var(--dur) var(--ease); }
+.tab:hover { background: var(--hover-bg); color: var(--text); }
+.tab.is-active { color: #fff; background: linear-gradient(to left, var(--brand-500), var(--brand-600)); box-shadow: 0 10px 15px -3px rgb(59 130 246 / .25); }
+.tab__badge { min-width: 1.25rem; padding: 0 .375rem; font-size: 11px; line-height: 1.25rem; text-align: center; border-radius: var(--r-full); background: rgba(255, 255, 255, .25); }
+
+/* Underline tabs (بديل) */
+.tabs--line { background: none; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; padding: 0; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.tabs--line .tab { border-radius: 0; border-bottom: 2px solid transparent; }
+.tabs--line .tab.is-active { background: none; box-shadow: none; color: var(--brand-600); border-bottom-color: var(--brand-600); }
+
+/* ---------- 7) Forms ---------- */
+.field { display: flex; flex-direction: column; gap: var(--sp-1); }
+.label { font-size: var(--fs-sm); font-weight: 500; color: var(--text-muted); }
+.input, .select, .textarea {
+  width: 100%; padding: .5rem .75rem; font-size: var(--fs-sm);
+  color: var(--text); background: var(--input-bg);
+  border: 1px solid var(--border-strong); border-radius: var(--r-lg);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.input::placeholder, .textarea::placeholder { color: var(--text-soft); }
+.input:focus, .select:focus, .textarea:focus { outline: none; border-color: var(--brand-500); box-shadow: 0 0 0 2px var(--ring); }
+.input:disabled, .select:disabled, .textarea:disabled { opacity: .6; cursor: not-allowed; }
+.input.is-invalid, .select.is-invalid { border-color: var(--danger-500); box-shadow: 0 0 0 2px rgba(239, 68, 68, .25); }
+.select { appearance: none; -webkit-appearance: none; padding-inline-end: 2.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath d='M5.5 7.5 10 12l4.5-4.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-size: 1.25rem; background-position: left .5rem center; }
+[dir="ltr"] .select { background-position: right .5rem center; }
+.textarea { min-height: 5rem; resize: vertical; }
+.field__error { font-size: var(--fs-xs); color: var(--danger-600); }
+.field__hint { font-size: var(--fs-xs); color: var(--text-soft); }
+input[type="checkbox"], input[type="radio"] { width: 1rem; height: 1rem; accent-color: var(--brand-500); }
+input[type="file"]::file-selector-button { margin-inline-end: var(--sp-3); padding: .375rem .75rem; border: 0; border-radius: var(--r-md); font-weight: 600; cursor: pointer; background: var(--warning-100); color: var(--warning-600); }
+.form-grid { display: grid; gap: var(--sp-4); grid-template-columns: 1fr; }
+@media (min-width: 768px) { .form-grid--2 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .form-grid--3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* Toggle switch */
+.switch { position: relative; width: 2.75rem; height: 1.5rem; flex: none; }
+.switch input { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 1; }
+.switch__track { position: absolute; inset: 0; border-radius: var(--r-full); background: #d1d5db; transition: background var(--dur-md) var(--ease); }
+.switch__track::after { content: ""; position: absolute; top: 2px; inset-inline-start: 2px; width: 1.25rem; height: 1.25rem; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm); transition: transform var(--dur-md) var(--ease); }
+.switch input:checked + .switch__track { background: var(--success-500); }
+[dir="rtl"] .switch input:checked + .switch__track::after { transform: translateX(-1.25rem); }
+[dir="ltr"] .switch input:checked + .switch__track::after { transform: translateX(1.25rem); }
+
+/* ---------- 8) Tables ---------- */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-xl); background: var(--surface); -webkit-backdrop-filter: blur(var(--blur-md)); backdrop-filter: blur(var(--blur-md)); }
+.table { width: 100%; font-size: var(--fs-sm); }
+.table th { padding: .75rem 1rem; font-weight: 600; text-align: start; color: var(--text-muted); background: var(--surface-subtle); white-space: nowrap; }
+.table td { padding: .75rem 1rem; border-top: 1px solid var(--border); vertical-align: middle; }
+.table tbody tr { transition: background var(--dur) var(--ease); }
+.table tbody tr:hover { background: var(--hover-bg); }
+.table .num { font-variant-numeric: tabular-nums; text-align: center; }
+.table .actions { display: flex; gap: var(--sp-2); justify-content: flex-end; }
+
+/* ---------- 9) Badges ---------- */
+.badge { display: inline-flex; align-items: center; gap: .25rem; padding: .125rem .625rem; font-size: var(--fs-xs); font-weight: 600; border-radius: var(--r-full); background: #f3f4f6; color: #374151; }
+.badge--success { background: var(--success-100); color: #065f46; }
+.badge--warning { background: var(--warning-100); color: #92400e; }
+.badge--danger  { background: var(--danger-100);  color: #991b1b; }
+.badge--info    { background: #cffafe; color: #155e75; }
+.badge--violet  { background: #ede9fe; color: #5b21b6; }
+.badge--brand   { background: #dbeafe; color: #1e40af; }
+[data-theme="dark"] .badge { background: rgba(255, 255, 255, .10); color: var(--text); }
+
+/* ---------- 10) Alerts ---------- */
+.alert { display: flex; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-radius: var(--r-lg); border: 1px solid; font-size: var(--fs-sm); }
+.alert--info    { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+.alert--success { background: var(--success-50); border-color: #a7f3d0; color: #065f46; }
+.alert--warning { background: var(--warning-50); border-color: #fde68a; color: #92400e; }
+.alert--danger  { background: var(--danger-50);  border-color: #fecaca; color: #991b1b; }
+
+/* ---------- 11) Modal / Dropdown / Toast ---------- */
+.modal-backdrop { position: fixed; inset: 0; z-index: var(--z-modal); display: flex; align-items: center; justify-content: center; padding: var(--sp-4);
+  background: var(--overlay); -webkit-backdrop-filter: blur(var(--blur-sm)); backdrop-filter: blur(var(--blur-sm)); }
+.modal { width: 100%; max-width: min(100%, 28rem); max-height: 90vh; overflow: auto; padding: var(--sp-6);
+  background: var(--surface-strong); -webkit-backdrop-filter: blur(var(--blur-xl)); backdrop-filter: blur(var(--blur-xl));
+  border: 1px solid var(--border); border-radius: var(--r-xl); box-shadow: var(--shadow-2xl); }
+.modal--lg { max-width: 48rem; } .modal--xl { max-width: 72rem; }
+.modal__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-4); }
+.modal__title { font-size: var(--fs-xl); font-weight: 700; }
+.modal__footer { display: flex; gap: var(--sp-2); justify-content: flex-start; margin-top: var(--sp-6); }
+
+.dropdown { position: relative; display: inline-block; }
+.dropdown__menu { position: absolute; top: calc(100% + .25rem); inset-inline-start: 0; z-index: var(--z-dropdown); min-width: 12rem; padding: var(--sp-1);
+  background: var(--surface-strong); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow-xl); -webkit-backdrop-filter: blur(var(--blur-xl)); backdrop-filter: blur(var(--blur-xl)); }
+.dropdown__item { display: flex; width: 100%; align-items: center; gap: var(--sp-2); padding: .5rem .75rem; font-size: var(--fs-sm); text-align: start; border-radius: var(--r-md); color: var(--text); }
+.dropdown__item:hover { background: var(--hover-bg); }
+.dropdown__item--danger { color: var(--danger-600); }
+
+.toast-stack { position: fixed; top: var(--sp-4); inset-inline-end: var(--sp-4); z-index: var(--z-toast); display: flex; flex-direction: column; gap: var(--sp-2); }
+.toast { min-width: 16rem; padding: var(--sp-3) var(--sp-4); border-radius: var(--r-lg); color: #fff; font-size: var(--fs-sm); font-weight: 500; box-shadow: var(--shadow-xl); background: linear-gradient(to left, var(--success-500), var(--success-600)); }
+.toast--danger { background: linear-gradient(to left, var(--danger-500), var(--danger-600)); }
+.toast--warning { background: linear-gradient(to left, var(--warning-500), var(--warning-600)); }
+.toast--info { background: linear-gradient(to left, var(--brand-500), var(--brand-600)); }
+
+.tooltip-dim { opacity: .35; }
+.skeleton { background: linear-gradient(90deg, rgba(0,0,0,.06), rgba(0,0,0,.12), rgba(0,0,0,.06)); border-radius: var(--r-md); animation: pulse 2s var(--ease) infinite; }
+
+/* ---------- 12) Utilities (الأكثر استخدامًا فقط) ---------- */
+.row { display: flex; align-items: center; gap: var(--sp-3); }
+.row--between { justify-content: space-between; }
+.row--wrap { flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; gap: var(--sp-3); }
+.grid { display: grid; gap: var(--sp-4); }
+.grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 900px) { .grid--3, .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } .sidebar { display: none; } .app__main { padding: var(--sp-3); } }
+.text-muted { color: var(--text-muted); } .text-soft { color: var(--text-soft); }
+.text-success { color: var(--success-600); } .text-danger { color: var(--danger-600); } .text-warning { color: var(--warning-600); }
+.text-xs { font-size: var(--fs-xs); } .text-sm { font-size: var(--fs-sm); } .text-lg { font-size: var(--fs-lg); }
+.fw-medium { font-weight: 500; } .fw-semibold { font-weight: 600; } .fw-bold { font-weight: 700; }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--font-mono); }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.no-print { }
+
+/* ---------- 13) Animations ---------- */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 50% { opacity: .5; } }
+.animate-spin { animation: spin 1s linear infinite; }
+.animate-pulse { animation: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* ---------- 14) Print (A4) ----------
+   الفكرة: يتم إخفاء التطبيق وطباعة عنصر واحد فقط: <div class="print-area">...</div>
+   (يوضع كابن مباشر لـ body خارج #root).                                      */
+.print-area { display: none; }
+@media print {
+  @page { size: A4; margin: 10mm; }
+  body { background: #fff !important; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #root, .no-print, .sidebar, .topbar, .toast-stack, .btn { display: none !important; }
+  body > .print-area { display: block !important; font-size: 9pt; line-height: 1.3; color: #000; direction: rtl; }
+  .print-area--compact { font-size: 7pt; }
+  .print-header { margin-bottom: 6mm; font-size: 9pt; }
+  .print-title { font-size: 12pt; font-weight: 700; margin: 0 0 3mm; text-align: center; }
+  .print-meta { font-size: 8pt; line-height: 1.4; }
+  .print-meta p { margin: 0 0 1.5mm; }
+  .print-table { width: 100%; border-collapse: collapse; table-layout: auto; }
+  .print-table thead { display: table-header-group; }
+  .print-table tr { page-break-inside: avoid; }
+  .print-table th, .print-table td { border: .5pt solid #333; padding: 1.5mm 2mm; vertical-align: top; overflow-wrap: break-word; }
+  .print-table th { background: #f0f0f0; font-weight: 700; }
+  .print-ok { color: #166534; font-weight: 600; }
+  .print-bad { color: #991b1b; font-weight: 600; }
+  /* لو الطباعة من داخل مودال: ألغِ قيود الموضع والارتفاع */
+  .modal-backdrop { position: static !important; background: none !important; padding: 0 !important; backdrop-filter: none !important; }
+  .modal { max-height: none !important; overflow: visible !important; box-shadow: none !important; border: 0 !important; background: #fff !important; }
+}
+
+</style>
+<style>
+.cta{padding:1rem 2rem;font-size:var(--fs-lg);box-shadow:0 14px 30px -8px rgb(99 102 241 / .55)}
+.shot{padding:var(--sp-2);overflow:hidden}
+.shot img{width:100%;height:auto;display:block;border-radius:var(--r-lg)}
+.shot__hint{display:none}
+.shot.empty img{display:none}
+.shot.empty .shot__hint{display:flex;flex-direction:column;gap:.4rem;min-height:260px;align-items:center;justify-content:center;text-align:center;border:2px dashed var(--brand-500);border-radius:var(--r-lg);color:var(--text-muted);font-weight:600}
+.btn{text-decoration:none}
+.feat .btn{margin-top:var(--sp-3)}
+.feat .badge{margin-bottom:var(--sp-2)}
+.btn.fb{background:#1877f2;direction:ltr;padding:.4rem 1rem;font-size:var(--fs-sm);box-shadow:0 8px 16px -6px rgb(24 119 242 / .6)}
+.btn.fb:hover{background:#0f63d4}
+html[data-theme="light"]{background:#f8fafc}
+html[data-theme="dark"]{background:#1c1917}
+body{position:relative;overflow-x:hidden}
+body::before,body::after{content:"";position:fixed;z-index:-1;width:34rem;height:34rem;border-radius:50%;filter:blur(90px);opacity:.3;pointer-events:none}
+body::before{background:#a5b4fc;top:-10rem;inset-inline-start:-8rem}
+body::after{background:#5eead4;bottom:-12rem;inset-inline-end:-8rem}
+[data-theme="dark"] body::before,[data-theme="dark"] body::after{opacity:.18}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:var(--sp-4) 0}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.brand img{height:44px;width:auto;max-width:160px;object-fit:contain}
+.logo{font-size:var(--fs-2xl);font-weight:800;background:linear-gradient(to left,var(--brand-600),var(--accent-500));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--sp-8);align-items:center;padding:var(--sp-8) 0 4rem}
+.hero h1{font-size:clamp(2rem,5vw,3.25rem);font-weight:800;line-height:1.4;margin-bottom:var(--sp-4)}
+.hero p{color:var(--text-muted);font-size:var(--fs-lg);line-height:1.9;margin-bottom:var(--sp-6);max-width:32em}
+.hero .note{font-size:var(--fs-sm);color:var(--text-muted);margin-top:var(--sp-3)}
+.qrow{display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;margin-top:var(--sp-2);border-radius:var(--r-lg);border:1px solid var(--border);background:var(--surface-subtle);font-size:var(--fs-sm);font-weight:500}
+.qrow.now{border-color:var(--brand-500)}
+section{padding:var(--sp-8) 0}
+h2{font-size:var(--fs-3xl);font-weight:700;margin-bottom:var(--sp-5)}
+.feat h3{font-size:var(--fs-lg);font-weight:600;margin-bottom:var(--sp-2)}
+.feat p{color:var(--text-muted);font-size:var(--fs-sm);line-height:1.8}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-4)}
+.num{display:inline-flex;width:2.25rem;height:2.25rem;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:700;margin-bottom:var(--sp-3);background:linear-gradient(to left,var(--brand-500),var(--accent-500))}
+details{padding:var(--sp-4) var(--sp-5);margin-bottom:var(--sp-3)}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--text-muted);margin-top:var(--sp-2);font-size:var(--fs-sm);line-height:1.9}
+footer{text-align:center;padding:var(--sp-8) 0;color:var(--text-muted);font-size:var(--fs-sm)}
+footer a{color:var(--brand-600);font-weight:600}
+@media(max-width:760px){.hero,.steps,.grid--2{grid-template-columns:1fr}.hero{padding-top:var(--sp-4)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="container">
+<!-- ============ 1) الشريط العلوي: الشعار + Facebook + الوضع الليلي ============ -->
+<nav class="nav">
+  <!-- الشعار: ضع ملف logo.png بجانب index.html. لو الشعار فيه الاسم، احذف السطر الثاني -->
+  <a class="brand" href="#">
+    <img src="logo.png" alt="شعار AA Clinic" onerror="this.style.display='none'">
+    <span class="logo">AA Clinic</span>
+  </a>
+  <div class="row" style="gap:.5rem">
+    <a class="btn btn--sm fb" href="#" data-link="facebook" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+      Facebook</a>
+    <button class="btn btn--soft btn--sm" id="theme" type="button" aria-label="تبديل الوضع">الوضع الليلي</button>
+  </div>
+</nav>
+
+<!-- ============ 2) أول الصفحة: العنوان + زرار التحميل ============ -->
+<div class="hero">
+  <div>
+    <h1>أدِر عيادتك من مكان واحد</h1>
+    <p>AA Clinic برنامج لإدارة العيادات يعمل على جهازك، ويناسب مختلف التخصصات وأحجام العيادات.</p>
+    <div class="row row--wrap" style="gap:.75rem">
+      <a class="btn btn--primary btn--lg cta" href="#" data-link="setup">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
+        تحميل البرنامج لويندوز</a>
+      <a class="btn btn--outline btn--lg" href="#features">تعرّف على المميزات</a>
+    </div>
+    <div class="note">أحدث إصدار: <span data-text="version">1.0.0</span></div>
+  </div>
+  <!-- ===== صورة البرنامج =====
+       احفظ لقطة الشاشة باسم screenshot.png وضعها بجانب index.html.
+       لو غيّرت الاسم، عدّل src هنا. لو الصورة غير موجودة يظهر مربع فاضي مكانها. -->
+  <div class="shot glass">
+    <img src="screenshot.png" alt="لقطة من برنامج AA Clinic" onerror="this.parentNode.classList.add('empty')">
+    <div class="shot__hint">ضع هنا لقطة شاشة البرنامج<br><small>احفظها باسم screenshot.png بجانب index.html</small></div>
+  </div>
+</div>
+
+<!-- ============ 3) المميزات (انسخ أي كارت لإضافة ميزة) ============ -->
+<section id="features">
+  <h2>ماذا يقدّم لك</h2>
+  <div class="grid grid--3 feat">
+    <div class="card card--hover"><h3>يعمل بدون إنترنت</h3><p>قاعدة بيانات محلية قوية داخل جهاز العيادة، فلا يتعطل عملك عند انقطاع الإنترنت، واستجابته لحظية.</p></div>
+    <div class="card card--hover"><h3>خصوصية كاملة لبياناتك</h3><p>السجلات الطبية والحسابات محفوظة داخل جهازك فقط، ولا تُرفع على أي خوادم خارجية.</p></div>
+    <div class="card card--hover"><h3>شبكة العيادة المحلية</h3><p>شغّله على جهاز واحد أو اربط الاستقبال وغرف الكشف والمحاسب والمدير عبر الشبكة المحلية.</p></div>
+    <div class="card card--hover"><h3>لوحة تحكم لحظية</h3><p>6 مؤشرات في نظرة واحدة: مرضى اليوم، مواعيد اليوم، إيرادات اليوم، مستحق اليوم، المتأخرات، وإجمالي المستحقات.</p></div>
+    <div class="card card--hover"><h3>كشف واستشارة بذكاء</h3><p>يفرّق تلقائيًا بين كشف جديد واستشارة، ويطبّق سعر الاستشارة أو مجانيتها حسب سياسة كل تخصص دون خطأ بشري.</p></div>
+    <div class="card card--hover"><h3>مرونة في التخصصات والغرف</h3><p>أضف أي تخصص أو غرفة أو خدمة بضغطة +، مع تسعير ومدة لكل خدمة، وحماية للفواتير القديمة عند تعديل الأسعار.</p></div>
+    <div class="card card--hover"><h3>ملف شامل لكل مريض</h3><p>البيانات والتاريخ المرضي والحساسية والزيارات والفواتير والمرفقات في شاشة واحدة منظمة.</p></div>
+    <div class="card card--hover"><h3>سجلات طبية وروشتات</h3><p>قوالب مخصصة لكل تخصص: عام، أسنان (مع مخطط الأسنان)، أطفال، علاج طبيعي، مع كتابة الروشتات.</p></div>
+    <div class="card card--hover"><h3>فواتير بكل طرق الدفع</h3><p>نقدي وبطاقة وتحويل بنكي وشيك، مع تتبع المدفوعات الجزئية والكلية.</p></div>
+    <div class="card card--hover"><h3>تأمين وعقود وشركات</h3><p>سجّل شركات التأمين والنقابات والشركات المتعاقدة، وأدر نسب التغطية والخصومات والمطالبات والتسويات.</p></div>
+    <div class="card card--hover"><h3>متابعة المتأخرات بدقة</h3><p>تقسيم تلقائي للمستحقات المتأخرة إلى 0-30 و31-60 و61-90 وأكثر من 90 يومًا لمتابعة التحصيل.</p></div>
+    <div class="card card--hover"><h3>رواتب ومستحقات الفريق</h3><p>رواتب ومكافآت وخصومات وسلف لكل الموظفين، وحساب نسب الأطباء وسجل صرف وتسويات دقيق.</p></div>
+    <div class="card card--hover"><h3>صلاحيات دقيقة لكل دور</h3><p>مدير النظام والمدير والطبيب والمحاسب والاستقبال، مع تحكم بالإنشاء والقراءة والتعديل والحذف في كل وحدة.</p></div>
+    <div class="card card--hover"><h3>سجل تدقيق كامل</h3><p>كل عملية حساسة مسجّلة: من نفّذها ومتى وما الذي تغيّر، لشفافية كاملة داخل العيادة.</p></div>
+    <div class="card card--hover"><h3>حسابات آمنة واستعادة سهلة</h3><p>إذا نسي أحد الموظفين كلمة المرور، يعيد المدير تعيينها في لحظات، ويختار الموظف كلمة جديدة خاصة به.</p></div>
+    <div class="card card--hover"><h3>قاعدة بيانات قوية ومستقرة</h3><p>يعتمد البرنامج على قاعدة بيانات قوية تحفظ سجلات العيادة بشكل منظم ومستقر، وتدعم نمو بياناتك مع الوقت.</p></div>
+    <div class="card card--hover"><h3>نسخ احتياطي تلقائي يوميًا</h3><p>نسخة كاملة عند فتح البرنامج، مع حفظها على قرص آخر واستعادة أي نسخة بضغطة زر.</p></div>
+    <div class="card card--hover"><h3>هوية عيادتك أنت</h3><p>اسم العيادة وشعارها، ودعم العربية والإنجليزية، والوضع الفاتح والليلي، وتقارير مالية وإدارية.</p></div>
+    <div class="card card--hover" style="grid-column:1/-1;text-align:center"><h3>جرّبه 14 يومًا مجانًا</h3><p>فترة تجريبية تلقائية بكامل المزايا دون مفتاح، وبياناتك تبقى كما هي عند الترقية.</p></div>
+  </div>
+</section>
+
+<!-- ============ 4) التحميلات (البرنامج + السيرفر + الدليل) ============ -->
+<section id="downloads">
+  <h2>التحميلات</h2>
+  <div class="grid grid--3 feat">
+    <div class="card card--hover">
+      <span class="badge badge--brand">الأساسي</span>
+      <h3>برنامج AA Clinic</h3>
+      <p>ملف التثبيت الرئيسي لويندوز. يُثبَّت على كل جهاز سيعمل عليه البرنامج.</p>
+      <a class="btn btn--primary btn--sm" href="#" data-link="setup">تحميل</a>
+    </div>
+    <div class="card card--hover">
+      <span class="badge badge--warning">للشبكة المحلية</span>
+      <h3>إعداد السيرفر</h3>
+      <p>لتشغيل العيادة على أكثر من جهاز بشبكة محلية. فُكّ الضغط وشغّله على الجهاز الرئيسي في أي وقت، حتى بعد تثبيت البرنامج.</p>
+      <a class="btn btn--soft btn--sm" href="#" data-link="server">تحميل</a>
+    </div>
+    <div class="card card--hover">
+      <span class="badge">مرجع</span>
+      <h3>دليل الاستخدام</h3>
+      <p>شرح التثبيت والتفعيل والاستخدام خطوة بخطوة.</p>
+      <a class="btn btn--outline btn--sm" href="#" data-link="guide" target="_blank" rel="noopener">فتح الدليل</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5) خطوات البدء ============ -->
+<section>
+  <h2>ابدأ في ثلاث خطوات</h2>
+  <div class="steps">
+    <div class="card"><div class="num">1</div><p>نزّل ملف التثبيت من الزر أعلاه.</p></div>
+    <div class="card"><div class="num">2</div><p>شغّل الملف واتبع شاشة التثبيت.</p></div>
+    <div class="card"><div class="num">3</div><p>أكمل إعداد العيادة، وتبدأ فترة تجريبية 14 يومًا تلقائيًا.</p></div>
+  </div>
+</section>
+
+<!-- ============ 6) الأسئلة الشائعة (انسخ أي بلوك details لإضافة سؤال) ============ -->
+<section>
+  <h2>أسئلة شائعة</h2>
+  <details class="glass glass--md"><summary>ظهرت رسالة تحذير من ويندوز عند التثبيت</summary>
+    <p>هذا يحدث مع البرامج الجديدة. اضغط «مزيد من المعلومات» ثم «تشغيل على أي حال». يمكنك أيضًا فحص الملف على VirusTotal (ضع الرابط هنا).</p></details>
+  <details class="glass glass--md"><summary>هل يحتاج البرنامج إنترنت؟</summary>
+    <p>لا. يعمل البرنامج بالكامل داخل العيادة بدون إنترنت، حتى على شبكة محلية بين عدة أجهزة.</p></details>
+  <details class="glass glass--md"><summary>كيف أحدّث البرنامج؟</summary>
+    <p>حمّل أحدث إصدار من هذه الصفحة وثبّته فوق القديم. بياناتك محفوظة في مسار مستقل ولا تتأثر بالتحديث.</p></details>
+  <details class="glass glass--md"><summary>هل توجد فترة تجريبية؟</summary>
+    <p>نعم، 14 يومًا مجانًا بكامل المزايا، وتبدأ تلقائيًا بعد إعداد العيادة. عند الترقية تبقى كل بياناتك كما هي.</p></details>
+  <details class="glass glass--md"><summary>ماذا لو تعطل جهاز العيادة؟</summary>
+    <p>يأخذ البرنامج نسخة احتياطية يوميًا تلقائيًا، ويمكنك حفظها على قرص آخر أو فلاشة واستعادتها بضغطة زر.</p></details>
+</section>
+
+<!-- ============ 7) أسفل الصفحة: الدعم ============ -->
+<footer>للدعم والاستفسار: <a href="#" data-link="whatsapp">واتساب</a> أو <a href="#" data-link="facebook" target="_blank" rel="noopener">Facebook</a></footer>
+</div>
+<script>
+(function(){
+  var root=document.documentElement,btn=document.getElementById('theme');
+  var saved=null;try{saved=localStorage.getItem('aa-theme')}catch(e){}
+  function set(d){root.setAttribute('data-theme',d?'dark':'light');btn.textContent=d?'الوضع الفاتح':'الوضع الليلي'}
+  set(saved==='dark');
+  document.querySelectorAll('[data-text]').forEach(function(t){var v=window.LINKS&&window.LINKS[t.dataset.text];if(v)t.textContent=v});
+  document.querySelectorAll('[data-link]').forEach(function(a){var u=window.LINKS&&window.LINKS[a.dataset.link];if(u)a.href=u});
+  btn.addEventListener('click',function(){var d=root.getAttribute('data-theme')!=='dark';set(d);try{localStorage.setItem('aa-theme',d?'dark':'light')}catch(e){}});
+})();
+</script>
+</body>
+</html>
